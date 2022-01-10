@@ -1,0 +1,3 @@
+#!/bin/sh
+
+echo "Isto é um shellscript com o nome $0" #escrever o nome do shellscript
