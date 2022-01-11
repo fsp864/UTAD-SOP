@@ -20,7 +20,7 @@ void (*handlerUSR1(int signal))(int sinal)
 int main()
 {
   int i, memID;
-  int pid, leitor = 0, conversor = 0, escritor = 0; 
+  int pid, leitor = -1, conversor = -1, escritor = -1; 
   char * buffer;  
   struct shmid_ds shmbuf;
  
@@ -28,38 +28,37 @@ int main()
   
   if ((memID = shmget(IPC_PRIVATE, MAXLINE + 1, 0600|IPC_CREAT)) != -1)
    {
-    leitor = getpid();
+    leitor = getpid();                            //zona de criacão de processos
     if ((conversor = fork()) == 0)
 	 {
 	  conversor = getpid();		
-//    if ((escritor = fork()) == 0)
-//		escritor = getpid();
-      escritor = fork();
+      if ((escritor = fork()) == 0)
+	    escritor = getpid();
 	 }
 
-    pid = getpid();
-	
-    if (leitor == pid)                                   /* processo LEITOR */
+    pid = getpid();	
+    printf("[%d]: leitor = %d, conversor = %d e escritor %d\n", pid, leitor, conversor, escritor);
+
+    if (pid == leitor)                                         //processo LEITOR
 	 {
- 	  printf("Leitor (%d)\n", leitor);
+// 	  printf("Leitor (%d)\n", leitor);
       buffer = shmat(memID, 0, 0);
       do
       {
-        fgets(buffer, MAXLINE, stdin);              /* inclui o caracter \n */
-        if (strchr(buffer, '\n') != NULL)            /* se string contem \n */
-          *(strchr(buffer, '\n')) = '\0';   /* substituir por fim de string */
+        fgets(buffer, MAXLINE, stdin);                    //inclui o caracter \n
+        if (strchr(buffer, '\n') != NULL)                  //se string contem \n
+          *(strchr(buffer, '\n')) = '\0';         //substituir por fim de string
 			
 	    kill(conversor, SIGUSR1);
 	    pause();
 
-      } while (strcasecmp(buffer, "sair") != 0);
+//      } while (strcasecmp(buffer, "sair") != 0);
+      } while (strlen(buffer) != 0);
 	 }
-
-	 kill(conversor, SIGUSR1);
 	   
-    if (conversor == pid)                             /* processo CONVERSOR */
+    if (pid == conversor)                                   //processo CONVERSOR
 	 {
-	  printf("Conversor (%d)\n", conversor);
+//	  printf("Conversor (%d)\n", conversor);
       buffer = shmat(memID, 0, 0);
       do
       {
@@ -68,20 +67,22 @@ int main()
           buffer[i] = toupper(buffer[i]);
 
         kill(escritor, SIGUSR1);
-      } while (strcasecmp(buffer, "sair") != 0);
+//      } while (strcasecmp(buffer, "sair") != 0);
+      } while (strlen(buffer) != 0);
      }
 	   
-    if (escritor = pid)                                /* processo ESCRITOR */
+    if (pid == escritor)                                     //processo ESCRITOR
 	 {
       buffer = shmat(memID, 0, 0);
       do
       {
         pause();
 
-        printf("Esctritor (%d)=%s\n", getpid(), buffer);
+        printf("[%d]: Escritor texto=%s\n", getpid(), buffer);
 
         kill(leitor, SIGUSR1);
-      } while (strcasecmp(buffer, "sair") != 0);
+//      } while (strcasecmp(buffer, "sair") != 0);
+      } while (strlen(buffer) != 0);
      }
 
 	shmdt(buffer);
@@ -91,4 +92,3 @@ int main()
     perror("Erro bloco de memoria: ");
   return(0);
 }
-
