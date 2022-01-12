@@ -40,39 +40,40 @@ int main()
   int i, semID, memID;
   char * buffer;
   struct shmid_ds shmbuf;
-  memID = shmget(IPC_PRIVATE, MAXLINE + 1, 0600|IPC_CREAT);
-  semID = semget(IPC_PRIVATE, 3, 0600|IPC_CREAT);
+
+  memID = shmget(IPC_PRIVATE, MAXLINE + 1, 0600 | IPC_CREAT);
+  semID = semget(IPC_PRIVATE, 3, 0600 | IPC_CREAT);
 
   if ((memID != -1) && (semID != -1))
    {
-    Init_n(semID, LEITOR);                                 /* Iniciar no LEITOR */
+    Init_n(semID, LEITOR);                     //Iniciar no LEITOR, semaforo a 1
 
     switch (fork())
     {
-      case -1:                                              /* erro no fork() */
+      case -1:                                                  //erro no fork()
         perror("Erro fork: ");
         break;
-      case 0:                                               /* processo filho */
+      case 0:                                                   //processo filho
 		printf("Leitor (%d)\n", getpid());
         buffer = shmat(memID, 0, 0);
         do
         {
           Lock_n(semID, LEITOR);
 
-          fgets(buffer, MAXLINE, stdin);              /* inclui o caracter \n */
-          if (strchr(buffer, '\n') != NULL)            /* se string contem \n */
-            *(strchr(buffer, '\n')) = '\0';   /* substituir por fim de string */
+          fgets(buffer, MAXLINE, stdin);                  //inclui o caracter \n
+          if (strchr(buffer, '\n') != NULL)                //se string contem \n
+            *(strchr(buffer, '\n')) = '\0';       //substituir por fim de string
 
-          Unlock_n(semID, CONVERSOR);               /* dar vez ao CONVERSOR */
+          Unlock_n(semID, CONVERSOR);                     //dar vez ao CONVERSOR
         } while (strlen(buffer) != 0);
         break;
-      default:                                                /* processo pai */
+      default:                                                    //processo pai
         switch (fork())
         {
-          case -1:                                          /* erro no fork() */
+          case -1:                                              //erro no fork()
             perror("Erro fork: ");
             break;
-          case 0:                                         /* processo CONVERSOR */
+          case 0:                                           //processo CONVERSOR
    		    printf("Conversor (%d)\n", getpid());
             buffer = shmat(memID, 0, 0);
             do
@@ -82,10 +83,10 @@ int main()
               for( i = 0 ; i < strlen(buffer) ; i++)
                 buffer[i] = toupper(buffer[i]);
 
-              Unlock_n(semID, ESCRITOR);                 /* dar vez ao ESCRITOR */
+              Unlock_n(semID, ESCRITOR);                   //dar vez ao ESCRITOR
             } while (strlen(buffer) != 0);
             break;
-          default:                                         /* processo ESCRITOR */
+          default:                                           //processo ESCRITOR
             buffer = shmat(memID, 0, 0);
             do
             {
@@ -93,14 +94,14 @@ int main()
 
               printf("Esctritor (%d)=%s\n", getpid(), buffer);
 
-              Unlock_n(semID, LEITOR);                 /* dar vez ao LEITOR */
+              Unlock_n(semID, LEITOR);                       //dar vez ao LEITOR
             } while (strlen(buffer) != 0);
             break;            
         }
     }
-	shmdt(buffer);
-    shmctl(memID, IPC_RMID, &shmbuf);
-    semctl(semID, 0, IPC_RMID);
+	shmdt(buffer);                                         //desligar da memoria
+    shmctl(memID, IPC_RMID, &shmbuf);                 //remover bloco de memoria
+    semctl(semID, 0, IPC_RMID);                              //remover semaforos
    }
    else
     perror("Erro bloco de memoria: ");

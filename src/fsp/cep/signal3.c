@@ -32,7 +32,7 @@ int main()
 {
   signal(SIGUSR1, (void (*)(int))handlerUSR1);   //associar função ao sinal SIGUSR1
   signal(SIGUSR2, (void (*)(int))handlerUSR2);   //associar função ao sinal SIGUSR2
-  signal(SIGQUIT, (void (*)(int))handlerQUIT);//associar função ao sinal SIGQUIT
+  signal(SIGQUIT, (void (*)(int))handlerQUIT);   //associar função ao sinal SIGQUIT
   
   printf("Programa (processo %d) recebe os sinais USR1, USR2 e SIGQUIT\n", getpid());
   while (sair != TRUE)

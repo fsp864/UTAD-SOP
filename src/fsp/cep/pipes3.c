@@ -18,13 +18,13 @@ int main()
    {
     switch (fork())
     {
-      case -1:                                              /* erro no fork() */
+      case -1:                                                  //erro no fork()
         perror("Erro na criacao do processo filho 1");
         break;
-      case 0:                                               /* processo filho */
+      case 0:                                                   //processo filho
         switch (fork())
         {
-          case -1:                                          /* erro no fork() */
+          case -1:                                              //erro no fork()
             perror("Erro na criacao do processo filho 2");
             break;
           case 0:
@@ -34,9 +34,9 @@ int main()
 		      fgets(buffer, MAXBUFFER, stdin);         
 
               size = strlen(buffer);
-              buffer[size - 1] = '\0';                 /* exclur o carater \n */
+              buffer[size - 1] = '\0';                     //exclur o carater \n
 
-              write(l2c[PIPE_IN], &size, sizeof(int));        /* enviar texto */
+              write(l2c[PIPE_IN], &size, sizeof(int));            //enviar texto
               write(l2c[PIPE_IN], buffer, size);
 
             } while (strcasecmp(buffer, "sair") != 0);
@@ -48,7 +48,7 @@ int main()
             do
             {
               read(c2e[PIPE_OUT], &size, sizeof(int));
-              read(c2e[PIPE_OUT], buffer, size);  /* receber texto convertido */
+              read(c2e[PIPE_OUT], buffer, size);      //receber texto convertido
 
               printf("Escritor [%d]: texto=%s\n", getpid(), buffer);
             } while (strcasecmp(buffer, "sair") != 0);
@@ -58,17 +58,17 @@ int main()
             break;
         }
         break;
-      default:                                                /* processo pai */
+      default:                                                    //processo pai
         printf("Conversor [%d]: Ativo\n", getpid());
         do
         {
-          read(l2c[PIPE_OUT], &size, sizeof(int));        /* receber mensagem */
+          read(l2c[PIPE_OUT], &size, sizeof(int));            //receber mensagem
           read(l2c[PIPE_OUT], buffer, size);
 
-          for( i = 0 ; i < size ; i++)                  /* converter mensagem */
+          for( i = 0 ; i < size ; i++)                      //converter mensagem
             buffer[i] = toupper(buffer[i]);
 
-          write(c2e[PIPE_IN], &size, sizeof(int));         /* enviar mensagem */
+          write(c2e[PIPE_IN], &size, sizeof(int));             //enviar mensagem
           write(c2e[PIPE_IN], buffer, size);
         } while (strcasecmp(buffer, "sair") != 0);
 

@@ -15,17 +15,17 @@ int main()
   char buffer[MAXLINE + 1];
   char com[] = "comfileXXXXXX";
 
-  if ((comfile = mkstemp(com)) != -1)            /* criar ficheiro temporario */
+  if ((comfile = mkstemp(com)) != -1)                //criar ficheiro temporario
    {
     switch (fork())
     {
-      case -1:                                              /* erro no fork() */
+      case -1:                                                  //erro no fork()
         perror("Erro fork: ");
         break;
-      case 0:                                               /* processo filho */
-        fgets(buffer, MAXLINE, stdin);                 /* inclui o carater \n */
-        if (strchr(buffer, '\n') != NULL)              /* se string contem \n */
-          *(strchr(buffer, '\n')) = '\0';     /* substituir por fim de string */
+      case 0:                                                   //processo filho
+        fgets(buffer, MAXLINE, stdin);                     //inclui o carater \n
+        if (strchr(buffer, '\n') != NULL)                  //se string contem \n
+          *(strchr(buffer, '\n')) = '\0';         //substituir por fim de string
 
         size = strlen(buffer);
         write(comfile , &size, sizeof(int));
@@ -34,7 +34,7 @@ int main()
         close(comfile);
         unlink(com);
         break;
-      default:                                                /* processo pai */
+      default:                                                    //processo pai
       	file = open(com, O_RDONLY);
       	while (read(file, &size, sizeof(int)) != sizeof(int))
           usleep(10000);

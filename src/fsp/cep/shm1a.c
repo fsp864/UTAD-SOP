@@ -24,17 +24,17 @@ int main()
    {
     switch (fork())
     {
-      case -1:                                              /* erro no fork() */
+      case -1:                                                  //erro no fork()
         perror("Erro fork: ");
         break;
-      case 0:                                               /* processo filho */
+      case 0:                                                   //processo filho
         buffer = shmat(memID, NULL, 0);
 
         do
         {
-          fgets(buffer, MAXLINE, stdin);              /* inclui o caracter \n */
-          if (strchr(buffer, '\n') != NULL)            /* se string contem \n */
-            *(strchr(buffer, '\n')) = '\0';   /* substituir por fim de string */
+          fgets(buffer, MAXLINE, stdin);                  //inclui o caracter \n
+          if (strchr(buffer, '\n') != NULL)                //se string contem \n
+            *(strchr(buffer, '\n')) = '\0';       //substituir por fim de string
 
           write(f2p[PIPEIN], &flag, sizeof(int));
           read(p2f[PIPEOUT], &flag, sizeof(int));
@@ -42,7 +42,7 @@ int main()
           printf("Filho (%d)=%s\n", getpid(), buffer);
         } while (strcasecmp(buffer, "sair") != 0);
         break;
-      default:                                                /* processo pai */
+      default:                                                    //processo pai
 		printf("Pai (%d)\n", getpid());
         buffer = shmat(memID, NULL, 0);
 

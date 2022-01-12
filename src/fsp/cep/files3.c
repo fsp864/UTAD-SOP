@@ -15,19 +15,19 @@ int main()
   char buffer[MAXLINE + 1];
   char com1[] = "comfileXXXXXX", com2[] = "comfileXXXXXX";
   
-  if (((comfile1 = mkstemp(com1)) != -1)        /* criar ficheiros temporario */
+  if (((comfile1 = mkstemp(com1)) != -1)            //criar ficheiros temporario
      && ((comfile2 = mkstemp(com2)) != -1))
    {
     switch (fork())
     {
-      case -1:                                              /* erro no fork() */
+      case -1:                                                  //erro no fork()
         perror("Erro fork: ");
         break;
-      case 0:                                               /* processo filho */
+      case 0:                                                   //processo filho
 	    printf("Leitor [%d]\n", getpid());
-        fgets(buffer, MAXLINE, stdin);                /* inclui o caracter \n */
-        if (strchr(buffer, '\n') != NULL)              /* se string contem \n */
-          *(strchr(buffer, '\n')) = '\0';     /* substituir por fim de string */
+        fgets(buffer, MAXLINE, stdin);                    //inclui o caracter \n
+        if (strchr(buffer, '\n') != NULL)                  //se string contem \n
+          *(strchr(buffer, '\n')) = '\0';         //substituir por fim de string
 
         size = strlen(buffer);
         write(comfile1 , &size, sizeof(int));
@@ -47,7 +47,7 @@ int main()
 //        unlink(com1);
 //        unlink(com2);
         break;
-      default:                                                /* processo pai */
+      default:                                                    //processo pai
 	    printf("Conversor [%d]\n", getpid());
         file1 = open(com1, O_RDONLY);
       	while (read(file1, &size, sizeof(int)) != sizeof(int));

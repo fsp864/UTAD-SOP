@@ -24,7 +24,7 @@ int main()
   char * buffer;  
   struct shmid_ds shmbuf;
  
-  signal(SIGUSR1, (void (*)(int))handlerUSR1);   //associar função ao sinal SIGUSR1
+  signal(SIGUSR1, (void (*)(int))handlerUSR1);//associar função ao sinal SIGUSR1
   
   if ((memID = shmget(IPC_PRIVATE, MAXLINE + 1, 0600|IPC_CREAT)) != -1)
    {
@@ -54,6 +54,7 @@ int main()
 
 //      } while (strcasecmp(buffer, "sair") != 0);
       } while (strlen(buffer) != 0);
+//  	  kill(conversor, SIGUSR1);
 	 }
 	   
     if (pid == conversor)                                   //processo CONVERSOR

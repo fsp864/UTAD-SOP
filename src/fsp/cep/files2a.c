@@ -14,18 +14,18 @@ int main()
   char buffer[MAXLINE + 1];
   char com[] = "comfile";
 
-  if ((comfile = creat(com, S_IRWXU)) != -1)            /* criar ficheiro */
+  if ((comfile = creat(com, S_IRWXU)) != -1)                //criar ficheiro
    {
-    fgets(buffer, MAXLINE, stdin);                 /* inclui o carater \n */
-    if (strchr(buffer, '\n') != NULL)              /* se string contem \n */
-      *(strchr(buffer, '\n')) = '\0';     /* substituir por fim de string */
+    fgets(buffer, MAXLINE, stdin);                     //inclui o carater \n
+    if (strchr(buffer, '\n') != NULL)                  //se string contem \n
+      *(strchr(buffer, '\n')) = '\0';         //substituir por fim de string
 
     size = strlen(buffer);
-    write(comfile , &size, sizeof(int));
-    write(comfile , buffer, size);
+    write(comfile , &size, sizeof(int));            //enviar nº de carateres
+    write(comfile , buffer, size);                        //enviar carateres
        
     close(comfile);
-    unlink(com);
+    unlink(com);                               //pedir para remover ficheiro
    }
    else
     perror("Erro no ficheiro temporario");

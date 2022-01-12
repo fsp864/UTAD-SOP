@@ -9,12 +9,13 @@ int main(int argc, char * argv[])
 {
   int pid;
   char line[MAXLINE + 1];
+
   puts("digitar \"sair\" para finalizar.");
   do
   {
     fgets(line, MAXLINE, stdin);
-    if (strchr(line, '\n') != NULL)  /* se string contem uma mudanca de linha */ 
-       *(strchr(line, '\n')) = '\0';          /* substituir por fim de string */
+    if (strchr(line, '\n') != NULL)      //se string contem uma mudanca de linha
+       *(strchr(line, '\n')) = '\0';              //substituir por fim de string
     if (strcmp(line, "sair") != 0)
      {
       switch (pid = fork())

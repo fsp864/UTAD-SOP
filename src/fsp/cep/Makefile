@@ -1,5 +1,5 @@
 #config ------------------------------------------------------------------------
-PROGGRAMS=ola args argsenv somargs \
+PROGGRAMS=	ola args argsenv somargs \
 			getpid fork1 fork2 forks \
 			program2 exec1 exec2 myshell \
 			pipes1 pipes2 pipes3 \

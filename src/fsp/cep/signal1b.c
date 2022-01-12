@@ -22,8 +22,8 @@ void (*handlerINT(int signal))(int sinal)
 void (*handlerQUIT(int signal))(int sinal)
 {
   puts("Programa recebeu um SIGQUIT");
-  exit(-1);
- // sair = TRUE;
+//  exit(-1);
+  sair = TRUE;
 }
 
 void (*handlerKILL(int signal))(int sinal)

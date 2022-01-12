@@ -18,22 +18,22 @@ int main()
    {
     switch (fork())
     {
-      case -1:                                              /* erro no fork() */
+      case -1:                                                  //erro no fork()
         perror("Erro na criacao do processo filho");
         break;
-      case 0:                                               /* processo filho */
+      case 0:                                                   //processo filho
         do
         {
           printf("[%d]: ", getpid());
-		  fgets(buffer, MAXBUFFER, stdin);             /* inclui o carater \n */
+		  fgets(buffer, MAXBUFFER, stdin);                 //inclui o carater \n
 
           size = strlen(buffer);
-          buffer[size - 1] = '\0';                          /* subs \n por \0 */
+          buffer[size - 1] = '\0';                              //subs \n por \0
 
-          write(f2p[PIPE_IN], &size, sizeof(int));             /* enviar texto */
+          write(f2p[PIPE_IN], &size, sizeof(int));                //enviar texto
           write(f2p[PIPE_IN], buffer, size);
 
-          read(p2f[PIPE_OUT], &size, sizeof(int));   /*receber texto convertido*/
+          read(p2f[PIPE_OUT], &size, sizeof(int));    //receber texto convertido
           read(p2f[PIPE_OUT], buffer, size);
 
           printf("[%d]: texto=%s\n", getpid(), buffer);
@@ -44,17 +44,17 @@ int main()
         close(f2p[PIPE_OUT]);
 
         break;
-      default:                                                /* processo pai */
+      default:                                                    //processo pai
         do
         {
-          read(f2p[PIPE_OUT], &size, sizeof(int));           /* receber mensagem */
+          read(f2p[PIPE_OUT], &size, sizeof(int));            //receber mensagem
           read(f2p[PIPE_OUT], buffer, size);
 
-          for( i = 0 ; i < size ; i++)                  /* converter mensagem */
+          for( i = 0 ; i < size ; i++)                      //converter mensagem
             buffer[i] = toupper(buffer[i]);
           printf("[%d]: Texto convertido\n", getpid());
 
-          write(p2f[PIPE_IN], &size, sizeof(int));          /* enviar mensagem */
+          write(p2f[PIPE_IN], &size, sizeof(int));             //enviar mensagem
           write(p2f[PIPE_IN], buffer, size);
 
         } while (strcasecmp(buffer, "SAir") != 0);

@@ -54,8 +54,8 @@ int main()
             *(strchr(buffer, '\n')) = '\0';       //substituir por fim de string
 
           Up(semID);                                    //dar vez ao processo pai
-          usleep(1); //evitar entrada do filho de seguida (erro no Ubuntu para windows)
-          Down(semID);                                           //esperar pelo pai 
+//          usleep(1); //evitar entrada do filho de seguida (erro no Ubuntu para windows)
+          Down(semID);                                         //esperar pelo pai 
 
           printf("Filho (%d)=%s\n", getpid(), buffer);
         } while (strcasecmp(buffer, "sair") != 0);
@@ -66,7 +66,7 @@ int main()
 
         do
         {
-          Down(semID);                                         //esperar pelo filho
+          Down(semID);                                       //esperar pelo filho
 
           for( i = 0 ; i < strlen(buffer) ; i++)
             buffer[i] = toupper(buffer[i]);
