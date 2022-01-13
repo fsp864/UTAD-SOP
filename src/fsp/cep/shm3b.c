@@ -35,11 +35,11 @@ void semaphore(Semaphore semID, unsigned sem_num, unsigned sem_op, unsigned shor
 
 int main()
 {
-  int i, semID, memID;
-  char * buffer;
+  int soma = 0, semID, memID, sair = 1;
+  int * buffer;
   struct shmid_ds shmbuf;
 
-  memID = shmget(IPC_PRIVATE, MAXLINE + 1, 0600 | IPC_CREAT);
+  memID = shmget(IPC_PRIVATE, sizeof(int), 0600 | IPC_CREAT);
   semID = semget(IPC_PRIVATE, 2, 0600 | IPC_CREAT);
 
   if ((memID != -1) && (semID != -1))
@@ -58,12 +58,12 @@ int main()
         {
           Lock_n(semID, FILHO);
 
-          fgets(buffer, MAXLINE, stdin);                  //inclui o caracter \n
-          if (strchr(buffer, '\n') != NULL)                //se string contem \n
-            *(strchr(buffer, '\n')) = '\0';       //substituir por fim de string
+          scanf("%i", buffer);
 
           Unlock_n(semID, PAI);                                 //dar vez ao PAI
-        } while (strlen(buffer) != 0);
+        } while (*buffer != 0);
+        Lock_n(semID, FILHO);
+        printf("Soma dos valores = %d\n", *buffer);  //indicar a soma via buffer
         break;
       default:                                                    //processo pai
         buffer = shmat(memID, 0, 0);
@@ -71,12 +71,14 @@ int main()
         {
           Lock_n(semID, PAI);
 
-          for( i = 0 ; i < strlen(buffer) ; i++)
-            buffer[i] = toupper(buffer[i]);
-          printf("Pai (%d)=%s\n", getpid(), buffer);
-
+          soma += *buffer;
+          if (*buffer == 0)            //se e' para sair devolver soma no buffer
+           {
+             *buffer = soma;
+             sair = 0;
+           }
           Unlock_n(semID, FILHO);                             //dar vez ao FILHO
-        } while (strlen(buffer) != 0);
+        } while (sair != 0);      //não testar *buffer pois *buffer devolve soma
         break;
     }
 	shmdt(buffer);                                         //desligar da memoria

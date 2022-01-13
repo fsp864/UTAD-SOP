@@ -4,7 +4,7 @@ PROGGRAMS=	ola args argsenv somargs \
 			program2 exec1 exec2 myshell \
 			pipes1 pipes2 pipes3 \
 			files1 files2a files2b files3 files3a \
-			shm1a shm1b shm2a shm2b \
+			shm1a shm1b shm2a shm2b shm3a shm3b \
 			signal1a signal1b kill pause signal3 signalshm1
 CC=gcc
 RM=rm
@@ -87,6 +87,9 @@ shm2a: shm2a.c
 
 shm2b: shm2b.c
 	${CC} shm2b.c -o shm2b
+
+shm3a: shm3a.c
+	${CC} shm3a.c -o shm3a
 
 #signals -----------------------------------------------------------------------
 sigal1a: sigal1a.c

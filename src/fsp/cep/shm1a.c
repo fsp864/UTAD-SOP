@@ -36,8 +36,8 @@ int main()
           if (strchr(buffer, '\n') != NULL)                //se string contem \n
             *(strchr(buffer, '\n')) = '\0';       //substituir por fim de string
 
-          write(f2p[PIPEIN], &flag, sizeof(int));
-          read(p2f[PIPEOUT], &flag, sizeof(int));
+          write(f2p[PIPEIN], &flag, sizeof(int));               //dar vez ao PAI
+          read(p2f[PIPEOUT], &flag, sizeof(int));             //esperar pelo PAI
 
           printf("Filho (%d)=%s\n", getpid(), buffer);
         } while (strcasecmp(buffer, "sair") != 0);
@@ -48,12 +48,12 @@ int main()
 
         do
         {
-          read(f2p[PIPEOUT], &flag, sizeof(int));
+          read(f2p[PIPEOUT], &flag, sizeof(int));           //esperar pelo FILHO
 
           for( i = 0 ; i < strlen(buffer) ; i++)
             buffer[i] = toupper(buffer[i]);
 
-          write(p2f[PIPEIN], &flag, sizeof(int));
+          write(p2f[PIPEIN], &flag, sizeof(int));             //dar vez ao FILHO
         } while (strcasecmp(buffer, "sair") != 0);
         break;
     }
