@@ -121,7 +121,7 @@ signalshm1: signalshm1.c
 	${CC} signalshm1.c -o signalshm1
 
 #sokets ------------------------------------------------------------------------
-sockets.o: sockets.c #sockets.h
+sockets.o: sockets.c sockets.h
 	${CC} sockets.c -c -o sockets.o
 
 server1: server1.c sockets.o
