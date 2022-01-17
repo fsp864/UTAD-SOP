@@ -1,6 +1,6 @@
 #config ------------------------------------------------------------------------
 PROGGRAMS=	ola args argsenv somargs \
-			getpid fork1 fork2 forks \
+			getpid fork1 fork2 forks forksarg \
 			program2 exec1 exec2 myshell \
 			pipes1 pipes2 pipes3 \
 			files1 files2a files2b files3 files3a \
@@ -40,6 +40,9 @@ fork2: fork2.c
 
 forks: forks.c
 	${CC} forks.c -o forks
+
+forksarg: forksarg.c
+	${CC} forksarg.c -o forksarg
 
 program2: program2.c
 	${CC} program2.c -o program2
