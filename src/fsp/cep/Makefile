@@ -1,17 +1,21 @@
 #config ------------------------------------------------------------------------
 PROGGRAMS=	ola args argsenv somargs \
-			getpid fork1 fork2 forks \
+			getpid fork1 fork2 forks forksarg \
 			program2 exec1 exec2 myshell \
 			pipes1 pipes2 pipes3 \
 			files1 files2a files2b files3 files3a \
 			shm1a shm1b shm2a shm2b shm3a shm3b \
-			signal1a signal1b kill pause signal3 signalshm1
+            signal1a signal1b kill pause signal3 signalshm1 \
+			server1 client1 server2 client2
+
+MODULES=	sockets.o
+
 CC=gcc
 RM=rm
 MSG=echo
 
 #processes ---------------------------------------------------------------------
-all: ${PROGGRAMS}
+all: ${PROGGRAMS} ${MODULES}
 
 ola: ola.c
 	${CC} ola.c -o ola
@@ -36,6 +40,9 @@ fork2: fork2.c
 
 forks: forks.c
 	${CC} forks.c -o forks
+
+forksarg: forksarg.c
+	${CC} forksarg.c -o forksarg
 
 program2: program2.c
 	${CC} program2.c -o program2
@@ -91,6 +98,9 @@ shm2b: shm2b.c
 shm3a: shm3a.c
 	${CC} shm3a.c -o shm3a
 
+shm3b: shm3b.c
+	${CC} shm3b.c -o shm3b
+
 #signals -----------------------------------------------------------------------
 sigal1a: sigal1a.c
 	${CC} sigal1a.c -o sigal1a
@@ -110,10 +120,26 @@ signal3: signal3.c
 signalshm1: signalshm1.c
 	${CC} signalshm1.c -o signalshm1
 
+#sokets ------------------------------------------------------------------------
+sockets.o: sockets.c #sockets.h
+	${CC} sockets.c -c -o sockets.o
+
+server1: server1.c sockets.o
+	${CC} server1.c sockets.o -o server1
+
+client1: client1.c sockets.o
+	${CC} client1.c sockets.o -o client1
+
+server2: server2.c sockets.o
+	${CC} server2.c sockets.o -o server2
+
+client2: client2.c sockets.o
+	${CC} client2.c sockets.o -o client2
+
 #clean & rebuid ----------------------------------------------------------------
 clean:
-	@${MSG} removendo os programas
-	@${RM} ${PROGGRAMS}
+	@${MSG} removendo os programas e modulos
+	@${RM} ${PROGGRAMS} ${MODULES}
 	
 rebluid: clean all
 	@${MSG} programas refeitos
