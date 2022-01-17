@@ -29,7 +29,7 @@ void (*handlerHUP(int signal))(int sinal)
 int main(int argc, char * argv[])
 {
   int com, port, i, size;
-  char * host, buffer[MAXMESSAGE + 1];
+  char * host, ch, buffer[MAXMESSAGE + 1];
 
   if (argc > 2)
    {
@@ -57,17 +57,22 @@ int main(int argc, char * argv[])
       printf("[%d]: Comunicacao establecida\n", getpid());
       do
       {
-        read(com, &size, sizeof(int));
-        read(com, buffer, size);
+        i = 0;
+        do
+        {
+          read(com, &ch, sizeof(char));
+          buffer[i++] = toupper(ch);
+        } while (ch != '\n');
+        buffer[i] = '\0';
 
-        for( i = 0 ; i < size - 1 ; i++)
+        size = strlen(buffer);
+        for( i = 0 ; i < size ; i++)
           buffer[i] = toupper(buffer[i]);
 
         write(com, buffer, size);
-        printf("[%d]: %s\n", getpid(), buffer); 
-      } while (strcasecmp(buffer, "sair") != 0);
+        printf("[%d]: %s", getpid(), buffer); 
+      } while (strcasecmp(buffer, "sair\r\n") != 0);
       close(com);
-//      kill(getpid(), SIGHUP);
     } while (1 == 1);
    }
    else
@@ -78,4 +83,3 @@ int main(int argc, char * argv[])
 
    return(0);
 }
-	

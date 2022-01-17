@@ -27,17 +27,20 @@ void (*handlerHUP(int signal))(int sinal)
 int ProcessMessage(int com)
 {
   char ch, buffer[MAXMESSAGE] = "Servidor SOP 0v1b2\n";
-  int i = 0;
+  int i;
 
   write(com, buffer, strlen(buffer)); 
 
+  i = 0;
   do
   {
    read(com, &ch, sizeof(char));
    buffer[i++] = toupper(ch);
   } while (ch != '\n');
   buffer[i] = '\0';
+
   write(com, buffer, strlen(buffer));
+
   close(com);
   printf(" %s", buffer);
   return(strcasecmp(buffer, "sair\n"));

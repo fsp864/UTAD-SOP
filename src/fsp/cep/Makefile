@@ -6,7 +6,7 @@ PROGGRAMS=	ola args argsenv somargs \
 			files1 files2a files2b files3 files3a \
 			shm1a shm1b shm2a shm2b shm3a shm3b \
             signal1a signal1b kill pause signal3 signalshm1 \
-			server1 client1 server2 client2
+			server1 client1 server2 client2 server3
 
 MODULES=	sockets.o
 
@@ -135,6 +135,9 @@ server2: server2.c sockets.o
 
 client2: client2.c sockets.o
 	${CC} client2.c sockets.o -o client2
+
+server3: server3.c sockets.o
+	${CC} server3.c sockets.o -o server3
 
 #clean & rebuid ----------------------------------------------------------------
 clean:
