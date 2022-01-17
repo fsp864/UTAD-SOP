@@ -39,7 +39,7 @@ int GetMessage(int com)
   write(com ,buffer ,strlen(buffer) + 1);
   close(com);
   printf("%s", buffer);
-  return(strcmp(buffer, "SAIR\n"));
+  return(strcmp(buffer, "SAIR"));
 }
 
 int main(int argc, char * argv[])
