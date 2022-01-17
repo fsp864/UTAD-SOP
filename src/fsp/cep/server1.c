@@ -29,17 +29,18 @@ int GetMessage(int com)
   char ch, buffer[MAXMESSAGE] = "Servidor SOP 0v1b2\n";
   int i = 0;
 
-  write(com, buffer, strlen(buffer) + 1); 
+  write(com, buffer, strlen(buffer)); 
+
   do
   {
    read(com, &ch, sizeof(char));
    buffer[i++] = toupper(ch);
   } while (ch != '\n');
   buffer[i] = '\0';
-  write(com ,buffer ,strlen(buffer) + 1);
+  write(com, buffer, strlen(buffer));
   close(com);
   printf("%s", buffer);
-  return(strcmp(buffer, "SAIR\n"));
+  return(strcasecmp(buffer, "sair\n"));
 }
 
 int main(int argc, char * argv[])
@@ -71,19 +72,21 @@ int main(int argc, char * argv[])
        }
       switch(fork())
       {
-        case -1 :
+        case -1:
           perror("fork: ");
           close(mysocket);
           close(com);
           return(1);
-        case 0 :
-          printf("[%d]: Comunicacao establecida: ", getpid());
+        case 0:
           close(mysocket);
+          printf("[%d]: Comunicacao establecida: ", getpid());
           if (GetMessage(com) == 0)
             kill(getppid(), SIGHUP);
           return(0);
-        default :
+          break;
+        default:
           close(com);
+          break;
       } 
     } while (1 == 1);
    }

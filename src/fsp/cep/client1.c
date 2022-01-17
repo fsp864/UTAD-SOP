@@ -11,7 +11,7 @@
 int main(int argc,char *argv[])
 {
   int i = 0, mysocket, port;
-  char ch, line[MAXLINE + 1], * host;
+  char ch, buffer[MAXLINE + 1], * host;
 
   if (argc < 3)
    {
@@ -31,18 +31,18 @@ int main(int argc,char *argv[])
   printf("Ligacao ao servidor %s:%d (socket %d)\n", host, port, mysocket);
   do
   {
-    read(mysocket, &line[i], sizeof(char));
-  } while (line[i++] != '\n');
-  line[--i] = '\0';
-  puts(line);
+    read(mysocket, &buffer[i], sizeof(char));
+  } while (buffer[i++] != '\n');
+  buffer[i] = '\0';
+  puts(buffer);
 
-  fgets(line, MAXLINE, stdin);
+  fgets(buffer, MAXLINE, stdin);                        //inclui o caracter \n
 
-  write(mysocket, line, strlen(line));
-  read(mysocket, line, strlen(line));
+  write(mysocket, buffer, strlen(buffer));
+  read(mysocket, buffer, strlen(buffer));
 
   close(mysocket);
-  puts(line);
+  puts(buffer);
   
   return(0);
 }
