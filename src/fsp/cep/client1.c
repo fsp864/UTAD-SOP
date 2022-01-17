@@ -23,18 +23,18 @@ int main(int argc,char *argv[])
   port = atoi(argv[2]);
   if ((mysocket = ClientCreateConnection(port, host)) < 0)
    {
-    close(mysocket);
     perror("ClientCreateConnection: ");
     return(1);
    }
 
   printf("Ligacao ao servidor %s:%d (socket %d)\n", host, port, mysocket);
+
   do
   {
     read(mysocket, &buffer[i], sizeof(char));
   } while (buffer[i++] != '\n');
   buffer[i] = '\0';
-  puts(buffer);
+  printf("%s", buffer);
 
   fgets(buffer, MAXLINE, stdin);                        //inclui o caracter \n
 
@@ -42,7 +42,7 @@ int main(int argc,char *argv[])
   read(mysocket, buffer, strlen(buffer));
 
   close(mysocket);
-  puts(buffer);
+  printf("%s", buffer);
   
   return(0);
 }

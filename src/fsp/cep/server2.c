@@ -13,21 +13,22 @@
 #define MAXMESSAGE	  128
 #define MAXCONNECTIONS  1
 
+int mysocket;
+
 void waitfunc(void)
 {
   while (waitpid(-1, NULL, WNOHANG) > 0);
 }
 
-void (*handler(int signal))(int sinal)
+void (*handlerHUP(int signal))(int sinal)
 {
   puts("Servidor recebeu um SIGHUP");
   exit(0);
 }
 
-
 int main(int argc, char * argv[])
 {
-  int mysocket, com, port, i, size;
+  int com, port, i, size;
   char * host, buffer[MAXMESSAGE + 1];
 
   if (argc > 2)
@@ -41,7 +42,7 @@ int main(int argc, char * argv[])
      }
 
     signal(SIGCHLD, (void (*)()) waitfunc);
-    signal(SIGHUP, (void (*)()) handler);
+    signal(SIGHUP, (void (*)()) handlerHUP);
 
     fclose(stdin);
     printf("[%d]: Servidor em %s:%d\nEsperando comunicacoes (%d max) / SIGHUP termina\n", getpid(), host, port, MAXCONNECTIONS);
@@ -66,6 +67,7 @@ int main(int argc, char * argv[])
         printf("[%d]: %s\n", getpid(), buffer); 
      } while (strcasecmp(buffer, "sair") != 0);
      close(com);
+//     kill(getpid(), SIGHUP);
     } while (1 == 1);
    }
    else
@@ -76,3 +78,4 @@ int main(int argc, char * argv[])
 
    return(0);
 }
+	

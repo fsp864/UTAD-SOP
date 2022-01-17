@@ -18,13 +18,13 @@ void waitfunc(void)
   while (waitpid(-1, NULL, WNOHANG) > 0);
 }
 
-void (*handler(int signal))(int sinal)
+void (*handlerHUP(int signal))(int sinal)
 {
   puts("Servidor recebeu um SIGHUP");
   exit(0);
 }
 
-int GetMessage(int com)
+int ProcessMessage(int com)
 {
   char ch, buffer[MAXMESSAGE] = "Servidor SOP 0v1b2\n";
   int i = 0;
@@ -39,13 +39,13 @@ int GetMessage(int com)
   buffer[i] = '\0';
   write(com, buffer, strlen(buffer));
   close(com);
-  printf("%s", buffer);
+  printf(" %s", buffer);
   return(strcasecmp(buffer, "sair\n"));
 }
 
 int main(int argc, char * argv[])
 {
-  int mysocket, com, port;
+  int port, mysocket, com;
   char * host;
 
   if (argc > 2)
@@ -59,10 +59,11 @@ int main(int argc, char * argv[])
      }
 
     signal(SIGCHLD, (void (*)()) waitfunc);
-    signal(SIGHUP, (void (*)()) handler);
+    signal(SIGHUP, (void (*)()) handlerHUP);
 
     fclose(stdin);
     printf("[%d]: Servidor em %s:%d\nEsperando comunicacoes (%d max) / SIGHUP termina\n", getpid(), host, port, MAXCONNECTIONS);
+
     do
     {
       if ((com = accept(mysocket, NULL, NULL)) < 0)
@@ -80,7 +81,7 @@ int main(int argc, char * argv[])
         case 0:
           close(mysocket);
           printf("[%d]: Comunicacao establecida: ", getpid());
-          if (GetMessage(com) == 0)
+          if (ProcessMessage(com) == 0)
             kill(getppid(), SIGHUP);
           return(0);
           break;

@@ -8,7 +8,7 @@
 
 int ServerCreateConnection(unsigned short port, char *host, int connections)
 {
-  int mysocket;
+  int mysocket, option;
   struct sockaddr_in sa;
   struct hostent * hp;
 
@@ -21,7 +21,8 @@ int ServerCreateConnection(unsigned short port, char *host, int connections)
   if ((mysocket = socket(AF_INET, SOCK_STREAM, 0)) < 0)
     return(-1);
 
-  if (bind(mysocket ,(struct sockaddr *)&sa, sizeof(struct sockaddr_in)) < 0)
+  setsockopt(mysocket, SOL_SOCKET, SO_REUSEADDR, &option, sizeof(option));
+  if (bind(mysocket, (struct sockaddr *)&sa, sizeof(struct sockaddr_in)) < 0)
    {
     close(mysocket);
     return(-1);
