@@ -64,7 +64,7 @@ int main(int argc, char * argv[])
     signal(SIGCHLD, (void (*)()) waitfunc);
     signal(SIGHUP, (void (*)()) handlerHUP);
 
-    fclose(stdin);
+    close(STDIN_FILENO);                            //fechar entrada do programa
     printf("[%d]: Servidor em %s:%d\nEsperando comunicacoes (%d max) / SIGHUP termina\n", getpid(), host, port, MAXCONNECTIONS);
 
     do
@@ -96,7 +96,7 @@ int main(int argc, char * argv[])
    }
    else
    {
-    fprintf(stderr,"uso: %s interface porta\n", argv[0]);
+    fprintf(stderr, "uso: %s interface porta\n", argv[0]);
     return(1);
    }
 

@@ -41,7 +41,6 @@ int main()
 
     if (pid == leitor)                                         //processo LEITOR
 	 {
-// 	  printf("Leitor (%d)\n", leitor);
       buffer = shmat(memID, 0, 0);
       do
       {
@@ -52,14 +51,12 @@ int main()
 	    kill(conversor, SIGUSR1);
 	    pause();
 
-//      } while (strcasecmp(buffer, "sair") != 0);
-      } while (strlen(buffer) != 0);
-//  	  kill(conversor, SIGUSR1);
+      } while (strcasecmp(buffer, "sair") != 0);
+//      } while (strlen(buffer) != 0);
 	 }
 	   
     if (pid == conversor)                                   //processo CONVERSOR
 	 {
-//	  printf("Conversor (%d)\n", conversor);
       buffer = shmat(memID, 0, 0);
       do
       {
@@ -68,8 +65,8 @@ int main()
           buffer[i] = toupper(buffer[i]);
 
         kill(escritor, SIGUSR1);
-//      } while (strcasecmp(buffer, "sair") != 0);
-      } while (strlen(buffer) != 0);
+      } while (strcasecmp(buffer, "sair") != 0);
+//      } while (strlen(buffer) != 0);
      }
 	   
     if (pid == escritor)                                     //processo ESCRITOR
@@ -82,8 +79,8 @@ int main()
         printf("[%d]: Escritor texto=%s\n", getpid(), buffer);
 
         kill(leitor, SIGUSR1);
-//      } while (strcasecmp(buffer, "sair") != 0);
-      } while (strlen(buffer) != 0);
+      } while (strcasecmp(buffer, "sair") != 0);
+//      } while (strlen(buffer) != 0);
      }
 
 	shmdt(buffer);
@@ -91,5 +88,6 @@ int main()
    }
    else
     perror("Erro bloco de memoria: ");
+
   return(0);
 }

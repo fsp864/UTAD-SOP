@@ -32,7 +32,9 @@ int main()
   signal(SIGQUIT, (void (*)(int))handler);    //associar função ao sinal SIGQUIT
   
   printf("Programa (processo %d) recebe os sinais SIGHUP, SIGINT e SIGQUIT\n", getpid());
+
   while (nsair)
     sleep(1000000);
+
   puts("Abandonado programa devido a um SIGQUIT");
 }

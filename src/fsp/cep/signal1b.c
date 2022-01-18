@@ -22,8 +22,8 @@ void (*handlerINT(int signal))(int sinal)
 void (*handlerQUIT(int signal))(int sinal)
 {
   puts("Programa recebeu um SIGQUIT");
-//  exit(-1);
-  sair = TRUE;
+  exit(-1);
+//  sair = TRUE;
 }
 
 void (*handlerKILL(int signal))(int sinal)
@@ -40,7 +40,13 @@ int main()
   signal(SIGKILL, (void (*)(int))handlerKILL);//associar função ao sinal SIGQUIT
   
   printf("Programa (processo %d) recebe os sinais SIGHUP, SIGINT e SIGQUIT\n", getpid());
+
   while (sair != TRUE)
-    sleep(1000000);
+  {
+    sleep(1);
+    puts("SIGHUP para o proprio processo");
+    kill(getpid(), 1);
+  }
+
   puts("Abandonado programa devido a um SIGQUIT");
 }

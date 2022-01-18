@@ -8,7 +8,7 @@ int main(int argc, char *argv[])
 {
   int signal, pid;
 
-  if (argc >= 2)
+  if (argc > 2)
    {
     signal = atoi(argv[1]);
     pid = atoi(argv[2]);
