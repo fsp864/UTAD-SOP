@@ -25,6 +25,7 @@ void (*handlerHUP(int signal))(int sinal)
 }
 
 int ProcessMessage(int com)
+//char * ProcessMessage(int com)
 {
   char ch, buffer[MAXMESSAGE] = "Servidor SOP 0v1b2\n";
   int i;
@@ -43,7 +44,9 @@ int ProcessMessage(int com)
 
   close(com);
   printf(" %s", buffer);
-  return(strcasecmp(buffer, "sair\n"));
+//  return(strcasecmp(buffer, "sair\r\n"));                    //formato do telnel
+  return(strcasecmp(buffer, "sair\n"));                   //formato do ./clente1
+//  return(strstr(buffer, "SAIR"));
 }
 
 int main(int argc, char * argv[])
@@ -85,6 +88,7 @@ int main(int argc, char * argv[])
           close(mysocket);
           printf("[%d]: Comunicacao establecida: ", getpid());
           if (ProcessMessage(com) == 0)
+//          if (ProcessMessage(com) != NULL)
             kill(getppid(), SIGHUP);
           return(0);
           break;

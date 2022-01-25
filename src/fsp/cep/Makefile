@@ -5,7 +5,7 @@ PROGGRAMS=	ola args argsenv somargs \
 			pipes1 pipes2 pipes3 \
 			files1 files2a files2b files3 files3a \
 			shm1a shm1b shm2a shm2b shm3a shm3b \
-            signal1a signal1b kill pause signal3 signalshm1 \
+			signal1a signal1b kill pause signal3 signalshm1 \
 			server1 client1 server2 client2 server3
 
 MODULES=	sockets.o
@@ -73,8 +73,8 @@ pipes3: pipes3.c
 files1: files1.c
 	${CC} files1.c -o files1
 
-files2a: files2a.c
-	${CC} files2a.c -o files2a
+files1a: files1a.c
+	${CC} files1a.c -o files1a
 
 files2b: files2b.c
 	${CC} files2b.c -o files2b
