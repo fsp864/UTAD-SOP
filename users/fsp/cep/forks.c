@@ -10,4 +10,6 @@ int main()
   fork();
   
   printf("%d: O meu pai e' %d\n", getpid(), getppid());
+
+  return 0;
 }

@@ -35,7 +35,7 @@ int main()
         unlink(com);
         break;
       default:                                                    //processo pai
-      	file = open(com, O_RDONLY);
+      	file = open(com, O_RDONLY|O_NONBLOCK);
       	while (read(file, &size, sizeof(int)) != sizeof(int))
           usleep(10000);
         read(file, buffer, size);
@@ -53,4 +53,6 @@ int main()
    }
    else
     perror("Erro ficheiro temporario: ");
+
+  return 0;
 }

@@ -86,6 +86,10 @@ int main()
     semctl(semID, 0, IPC_RMID);                              //remover semaforos
    }
    else
+   {
     perror("Erro bloco de memoria: ");
-  return(0);
+    return 1;
+   }
+
+  return 0;
 }

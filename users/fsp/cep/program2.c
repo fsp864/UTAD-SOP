@@ -6,5 +6,5 @@ int main()
 {
   printf("%d: Sou o programa 2\n", getpid());
 
-  return(0);
+  return 0;
 }

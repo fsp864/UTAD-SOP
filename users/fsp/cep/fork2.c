@@ -18,5 +18,5 @@ int main()
       printf("%d: Sou o pai e criei o processo %d\n", getpid(), pid);
   }
   
-  return(0);
+  return 0;
 }

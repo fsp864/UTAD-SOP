@@ -16,5 +16,5 @@ int main(int argc, char * argv[], char * env[])
   for( i = 0; env[i] != NULL; i++)
     printf("\t env[%d] %s\n", i, env[i]);
   
-  return(NORMAL);
+  return NORMAL;
 }

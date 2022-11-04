@@ -6,5 +6,5 @@ int main()
 {
   printf("Ola' Universo\n");
   
-  return(NORMAL);
+  return NORMAL;
 }

@@ -37,4 +37,6 @@ int main()
     sleep(1000000);
 
   puts("Abandonado programa devido a um SIGQUIT");
+
+  return 0;
 }

@@ -15,11 +15,12 @@ int main()
   char buffer[MAXLINE + 1];
   char com[] = "comfile";
 
-  while ((comfile = open(com, O_RDONLY)) == -1);
+  while ((comfile = open(com, O_RDONLY|O_NONBLOCK)) == -1);
     //sleep(5);
   puts("Ficheiro aberto");
   
-  while (read(comfile, &size, sizeof(int)) != sizeof(int));
+  read(comfile, &size, sizeof(int));
+  //while (read(comfile, &size, sizeof(int)) != sizeof(int));
     //sleep(5);
   read(comfile, buffer, size);
   close(comfile);
@@ -30,4 +31,6 @@ int main()
 
   buffer[size] = '\0';  
   puts(buffer);
+
+  return 0;
 }

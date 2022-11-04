@@ -49,4 +49,6 @@ int main()
   }
 
   puts("Abandonado programa devido a um SIGQUIT");
+
+  return 0;
 }

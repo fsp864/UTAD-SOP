@@ -29,4 +29,6 @@ int main()
    }
    else
     perror("Erro no ficheiro temporario");
+
+  return 0;
 }

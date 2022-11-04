@@ -38,7 +38,7 @@ int main(int argc, char * argv[])
     if ((mysocket = ServerCreateConnection(port, host, MAXCONNECTIONS)) < 0)
      {
       perror("ServerCreateConnection: ");
-      return(-1);
+      return -1;
      }
 
     signal(SIGCHLD, (void (*)()) waitfunc);
@@ -51,7 +51,7 @@ int main(int argc, char * argv[])
       if ((com = accept(mysocket, NULL, NULL)) < 0)
        {
         perror("accept: ");
-        return(-1);
+        return -1;
        }
 
       printf("[%d]: Comunicacao establecida\n", getpid());
@@ -73,9 +73,9 @@ int main(int argc, char * argv[])
    else
    {
     fprintf(stderr,"uso: %s interface porta\n", argv[0]);
-    return(1);
+    return 1;
    }
 
-   return(0);
+   return 0;
 }
 	

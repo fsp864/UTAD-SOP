@@ -44,7 +44,7 @@ int ProcessMessage(int com)
 
   close(com);
   printf(" %s", buffer);
-//  return(strcasecmp(buffer, "sair\r\n"));                    //formato do telnel
+//  return strcasecmp(buffer, "sair\r\n");                    //formato do telnel
   return(strcasecmp(buffer, "sair\n"));                   //formato do ./clente1
 //  return(strstr(buffer, "SAIR"));
 }
@@ -61,7 +61,7 @@ int main(int argc, char * argv[])
     if ((mysocket = ServerCreateConnection(port, host, MAXCONNECTIONS)) < 0)
      {
       perror("ServerCreateConnection: ");
-      return(-1);
+      return -1;
      }
 
     signal(SIGCHLD, (void (*)()) waitfunc);
@@ -75,7 +75,7 @@ int main(int argc, char * argv[])
       if ((com = accept(mysocket, NULL, NULL)) < 0)
        {
         perror("accept: ");
-        return(-1);
+        return -1;
        }
       switch(fork())
       {
@@ -83,14 +83,14 @@ int main(int argc, char * argv[])
           perror("fork: ");
           close(mysocket);
           close(com);
-          return(1);
+          return -1;
         case 0:
           close(mysocket);
           printf("[%d]: Comunicacao establecida: ", getpid());
           if (ProcessMessage(com) == 0)
 //          if (ProcessMessage(com) != NULL)
             kill(getppid(), SIGHUP);
-          return(0);
+          return 0;
           break;
         default:
           close(com);
@@ -101,8 +101,8 @@ int main(int argc, char * argv[])
    else
    {
     fprintf(stderr, "uso: %s interface porta\n", argv[0]);
-    return(1);
+    return 1;
    }
 
-   return(0);
+   return 0;
 }

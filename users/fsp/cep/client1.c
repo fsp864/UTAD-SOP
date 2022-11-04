@@ -44,5 +44,5 @@ int main(int argc,char *argv[])
   close(mysocket);
   printf("%s", buffer);
   
-  return(0);
+  return 0;
 }

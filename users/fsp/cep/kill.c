@@ -18,4 +18,6 @@ int main(int argc, char *argv[])
    }
    else
     perror("Falta indicar o PID e/ou o sinal");
+
+  return 0;
 }

@@ -41,4 +41,6 @@ int main()
     pause();
   }
   printf("Abandonado programa devido a um SIGQUIT com %d USR1 (%d) e %d USR2 (%d)\n", nusr1, SIGUSR1, nusr2, SIGUSR2);
+
+  return 0;
 }

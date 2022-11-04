@@ -80,4 +80,6 @@ int main()
    }
    else
     perror("Erro na criacao das pipes");
+
+   return 0;
 }

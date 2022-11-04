@@ -103,4 +103,6 @@ int main()
    }
    else
     perror("Erro ficheiros temporarios: ");
+
+  return 0;
 }

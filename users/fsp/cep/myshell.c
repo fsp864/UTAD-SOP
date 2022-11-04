@@ -32,5 +32,5 @@ int main(int argc, char * argv[])
      }
   } while (strcmp(line, "sair") != 0);
 
-  return(0);
+  return 0;
 }

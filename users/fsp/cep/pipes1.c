@@ -39,4 +39,6 @@ int main()
    }
    else
     perror("Erro na criacao da pipe");
+
+  return 0;
 }

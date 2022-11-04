@@ -61,6 +61,10 @@ int main()
     shmctl(memID, IPC_RMID, &shmbuf);
    }
    else
+   {
     perror("Erro bloco de memoria: ");
+    return 1;
+   }
+
   return 0;
 }

@@ -16,4 +16,6 @@ int main()
   printf("Programa (processo %d) vai adormecer\n", getpid());
   pause();
   puts("Programa acordado por um sinal.");
+
+  return 0;
 }

@@ -10,7 +10,6 @@ int main(int argc, char * argv[])
 
   if (argc > 1)
    {
-
     procs = atoi(argv[1]);
 
     while (i++ < procs)
@@ -33,6 +32,8 @@ int main(int argc, char * argv[])
    else
    {
     fprintf(stderr,"uso: %s numero_de_procesoos_a_criar\n", argv[0]);
-    return(1);
+    return 1;
    }
+
+   return 0;
 }
