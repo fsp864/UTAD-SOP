@@ -12,35 +12,47 @@
 ssize_t bread(int fd, void * buf, size_t count)
 {
   ssize_t bytes = 0;
+
   while (bytes != count)
     bytes += read(fd, buf + bytes, count - bytes);
+
   return bytes;
 }
+
 ssize_t bwrite(int fd, void * buf, size_t count)
 {
   ssize_t bytes = 0;
+
   while (bytes != count)
     bytes += write(fd, buf + bytes, count - bytes);
+
   return bytes;
 }
+
 ssize_t wbread(int fd, void * buf, size_t count, useconds_t micros)
 {
   ssize_t bytes = 0;
+
   while (bytes != count)
   {
     bytes += read(fd, buf + bytes, count - bytes);
+//    pause();
     usleep(micros);
   }
+
   return bytes;
 }
+
 ssize_t wbwrite(int fd, void * buf, size_t count, useconds_t micros)
 {
   ssize_t bytes = 0;
   while (bytes != count)
   {
     bytes += write(fd, buf + bytes, count - bytes);
+//    pause();
     usleep(micros);
   }
+
   return bytes;
 }
 
