@@ -29,21 +29,24 @@ int main()
   if ((memID = shmget(IPC_PRIVATE, MAXLINE + 1, 0600|IPC_CREAT)) != -1)
    {
     leitor = getpid();                            //zona de criacão de processos
-    if ((conversor = fork()) == 0)
+                                                  //pai leitor
+    if ((conversor = fork()) == 0)                //cria filho 1
 	 {
-	  conversor = getpid();		
-      if ((escritor = fork()) == 0)
-	    escritor = getpid();
+	  conversor = getpid();		                  //filho 1 conversor
+      if ((escritor = fork()) == 0)               //filho 1 cria filho 2 
+	    escritor = getpid();                      //filho 2 escrito
 	 }
 
     pid = getpid();	
-    printf("[%d]: leitor = %d, conversor = %d e escritor %d\n", pid, leitor, conversor, escritor);
+    printf("[%d] leitor = %d, conversor = %d e escritor %d\n", pid, leitor, conversor, escritor);
 
     if (pid == leitor)                                         //processo LEITOR
 	 {
       buffer = shmat(memID, 0, 0);
+      usleep(1000); //adormecer por 1000 usegundo para os outros processos apresentar info do printf anterior
       do
       {
+        printf("[%d] Leitor: ", getpid());
         fgets(buffer, MAXLINE, stdin);                    //inclui o caracter \n
         if (strchr(buffer, '\n') != NULL)                  //se string contem \n
           *(strchr(buffer, '\n')) = '\0';         //substituir por fim de string
@@ -61,6 +64,8 @@ int main()
       do
       {
 	    pause();
+
+        printf("[%d] Converor convertendo...\n", getpid());
         for( i = 0 ; i < strlen(buffer) ; i++)
           buffer[i] = toupper(buffer[i]);
 
@@ -76,20 +81,20 @@ int main()
       {
         pause();
 
-        printf("[%d]: Escritor texto=%s\n", getpid(), buffer);
+        printf("[%d] Escritor: %s\n", getpid(), buffer);
 
         kill(leitor, SIGUSR1);
       } while (strcasecmp(buffer, "sair") != 0);
 //      } while (strlen(buffer) != 0);
      }
 
-	shmdt(buffer);
-    shmctl(memID, IPC_RMID, &shmbuf);
+	shmdt(buffer);							//todos detach
+    shmctl(memID, IPC_RMID, &shmbuf);       //todos pedem para remover
    }
    else
    {
     perror("Erro bloco de memoria: ");
-    return 1;
+    return -1;
    }
 
   return 0;
