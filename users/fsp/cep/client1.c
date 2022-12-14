@@ -16,7 +16,7 @@ int main(int argc,char *argv[])
   if (argc < 3)
    {
     fprintf(stderr, "uso: %s maquina porta\n", argv[0]);
-    return(1);
+    return -1;
    }
 
   host = argv[1];
@@ -24,7 +24,7 @@ int main(int argc,char *argv[])
   if ((mysocket = ClientCreateConnection(port, host)) < 0)
    {
     perror("ClientCreateConnection: ");
-    return(1);
+    return -1;
    }
 
   printf("Ligacao ao servidor %s:%d (socket %d)\n", host, port, mysocket);
@@ -36,10 +36,10 @@ int main(int argc,char *argv[])
   buffer[i] = '\0';
   printf("%s", buffer);
 
-  fgets(buffer, MAXLINE, stdin);                        //inclui o caracter \n
+  fgets(buffer, MAXLINE, stdin);                          //inclui o caracter \n
 
-  write(mysocket, buffer, strlen(buffer));
-  read(mysocket, buffer, strlen(buffer));
+  write(mysocket, buffer, strlen(buffer));             //enviar texto ao servidor
+  read(mysocket, buffer, strlen(buffer)); //receber texto convertido do servirdor
 
   close(mysocket);
   printf("%s", buffer);

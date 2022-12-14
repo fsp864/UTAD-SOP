@@ -44,8 +44,8 @@ int ProcessMessage(int com)
 
   close(com);
   printf(" %s", buffer);
-//  return strcasecmp(buffer, "sair\r\n");                    //formato do telnel
-  return(strcasecmp(buffer, "sair\n"));                   //formato do ./clente1
+//  return strcasecmp(buffer, "sair\r\n");        //formato do telnel em windows
+  return(strcasecmp(buffer, "sair\n"));                  //formato do ./cliente1
 //  return(strstr(buffer, "SAIR"));
 }
 
