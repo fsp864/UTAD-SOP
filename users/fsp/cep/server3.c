@@ -78,7 +78,7 @@ int main(int argc, char * argv[])
    else
    {
     fprintf(stderr,"uso: %s interface porta\n", argv[0]);
-    return 1;
+    return -1;
    }
 
    return 0;
