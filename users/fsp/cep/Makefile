@@ -6,7 +6,8 @@ PROGGRAMS=	ola args argsenv somargs \
 			files1 files2a files2b files3 files3a \
 			shm1a shm1b shm2a shm2b shm3a shm3b \
 			signal1a signal1b kill pause signal3 signalfiles1 signalfiles3 signalshm1 signalshm1a \
-			server1 client1 server2 client2 server3
+			server1 client1 server2 client2 server3 \
+			p14-1-1-pipes p14-1-1a-pipes p14-1-1a-shm p14-1-3a-shm
 
 MODULES=	sockets.o
 
@@ -152,6 +153,21 @@ client2: client2.c sockets.o
 
 server3: server3.c sockets.o
 	${CC} server3.c sockets.o -o server3
+
+
+#exercicios aula p14 -----------------------------------------------------------
+p14-1-1-pipes: p14-1-1-pipes.c
+	${CC} p14-1-1-pipes.c -o p14-1-1-pipes
+
+p14-1-1a-pipes: p14-1-1a-pipes.c
+	${CC} p14-1-1a-pipes.c -o p14-1-1a-pipes
+
+p14-1-1a-shm: p14-1-1a-shm.c
+	${CC} p14-1-1a-shm.c -o p14-1-1a-shm
+
+p14-1-3a-shm: p14-1-3a-shm.c
+	${CC} p14-1-3a-shm.c -o p14-1-3a-shm
+
 
 #clean & rebuid ----------------------------------------------------------------
 clean:
