@@ -7,7 +7,8 @@ PROGGRAMS=	ola args argsenv somargs \
 			shm1a shm1b shm2a shm2b shm3a shm3b \
 			signal1a signal1b kill pause signal3 signalfiles1 signalfiles3 signalshm1 signalshm1a \
 			server1 client1 server2 client2 server3 \
-			p14-1-1-pipes p14-1-1a-pipes p14-1-1a-shm p14-1-3a-shm
+			p14-1-1-pipes p14-1-1a-pipes p14-1-1a-shm p14-1-3a-shm \
+			server-randomint client-randomint server-negpos client-negpos server-soma client-soma
 
 MODULES=	sockets.o
 
@@ -153,6 +154,24 @@ client2: client2.c sockets.o
 
 server3: server3.c sockets.o
 	${CC} server3.c sockets.o -o server3
+
+server-randomint: server-randomint.c sockets.o
+	${CC} server-randomint.c sockets.o -o server-randomint
+
+client-randomint: client-randomint.c sockets.o
+	${CC} client-randomint.c sockets.o -o client-randomint
+
+server-negpos: server-negpos.c sockets.o
+	${CC} server-negpos.c sockets.o -o server-negpos
+
+client-negpos: client-negpos.c sockets.o
+	${CC} client-negpos.c sockets.o -o client-negpos
+
+server-soma: server-soma.c sockets.o
+	${CC} server-soma.c sockets.o -o server-soma
+
+client-soma: client-soma.c sockets.o
+	${CC} client-soma.c sockets.o -o client-soma
 
 
 #exercicios aula p14 -----------------------------------------------------------
